@@ -1,46 +1,50 @@
+-- Example ox_inventory item definitions for w2f-Inventory-items.
+-- Copy these entries into your active ox_inventory items file.
+-- Place matching PNG files in your ox_inventory web/images directory (or your configured image path).
+
 return {
     ['raw_meat'] = {
         label = 'Raw Meat',
-        weight = 350,
+        weight = 250,
         stack = true,
         close = true,
-        description = 'Freshly harvested meat. Cook before consumption.',
+        description = 'Fresh raw meat collected from a hunted animal.',
         image = 'raw_meat.png'
     },
 
     ['animal_pelt'] = {
         label = 'Animal Pelt',
-        weight = 800,
+        weight = 700,
         stack = true,
         close = true,
-        description = 'A processed pelt used for trading and crafting.',
+        description = 'A cured pelt ready for trade or crafting.',
         image = 'animal_pelt.png'
     },
 
     ['animal_part'] = {
         label = 'Animal Part',
-        weight = 450,
+        weight = 400,
         stack = true,
         close = true,
-        description = 'A generic animal part collected during hunting.',
+        description = 'A harvested animal part used in recipes.',
         image = 'animal_part.png'
     },
 
     ['animal_trophy'] = {
         label = 'Animal Trophy',
-        weight = 1200,
+        weight = 1400,
         stack = false,
         close = true,
-        description = 'A rare trophy item prized by collectors.',
+        description = 'A rare hunting trophy for collectors.',
         image = 'animal_trophy.png'
     },
 
     ['deer_pelt'] = {
         label = 'Deer Pelt',
-        weight = 900,
+        weight = 850,
         stack = true,
         close = true,
-        description = 'A quality deer pelt suitable for premium sale.',
+        description = 'A high-quality pelt taken from a deer.',
         image = 'deer_pelt.png'
     },
 
@@ -49,16 +53,16 @@ return {
         weight = 300,
         stack = true,
         close = true,
-        description = 'A rugged tusk harvested from wild boar.',
+        description = 'A sturdy tusk from a wild boar.',
         image = 'boar_tusk.png'
     },
 
     ['bear_claw'] = {
         label = 'Bear Claw',
-        weight = 250,
+        weight = 220,
         stack = true,
         close = true,
-        description = 'A sharp bear claw kept as proof of the hunt.',
+        description = 'A sharp bear claw kept as proof of a hunt.',
         image = 'bear_claw.png'
     },
 
@@ -67,25 +71,34 @@ return {
         weight = 6500,
         stack = false,
         close = true,
-        description = 'A stripped Sultan shell ready for a full rebuild.',
+        description = 'A stripped Sultan shell for a full build project.',
         image = 'sultan_project_shell.png'
     },
 
     ['launch_spec_engine'] = {
         label = 'Launch Spec Engine',
-        weight = 2800,
+        weight = 3200,
         stack = false,
         close = true,
-        description = 'A high-torque engine package tuned for aggressive launches.',
+        description = 'A built engine package tuned for launch performance.',
         image = 'launch_spec_engine.png'
+    },
+
+    ['launch_spec_blueprint'] = {
+        label = 'Launch Spec Blueprint',
+        weight = 50,
+        stack = true,
+        close = true,
+        description = 'Technical plans for a launch-focused build setup.',
+        image = 'launch_spec_blueprint.png'
     },
 
     ['drag_turbo_kit'] = {
         label = 'Drag Turbo Kit',
-        weight = 1400,
+        weight = 1300,
         stack = false,
         close = true,
-        description = 'A complete forced-induction kit for drag builds.',
+        description = 'A complete turbo kit designed for drag racing.',
         image = 'drag_turbo_kit.png'
     },
 
@@ -94,16 +107,16 @@ return {
         weight = 1100,
         stack = false,
         close = true,
-        description = 'Upgraded fuel components for consistent high-load delivery.',
+        description = 'Upgraded fuel components for high-output engines.',
         image = 'fuel_system.png'
     },
 
     ['ecu'] = {
         label = 'ECU',
-        weight = 250,
+        weight = 180,
         stack = true,
         close = true,
-        description = 'Programmable engine control unit for custom tuning.',
+        description = 'Programmable control unit for engine tuning.',
         image = 'ecu.png'
     },
 
@@ -112,16 +125,16 @@ return {
         weight = 2200,
         stack = false,
         close = true,
-        description = 'Structural reinforcement kit for high-power setups.',
+        description = 'Reinforcement parts for a rigid performance chassis.',
         image = 'chassis_reinforcement.png'
     },
 
     ['paint_kit'] = {
         label = 'Paint Kit',
-        weight = 700,
+        weight = 650,
         stack = true,
         close = true,
-        description = 'A complete paint application kit for resprays.',
+        description = 'Paint materials for a full vehicle respray.',
         image = 'paint_kit.png'
     },
 
@@ -130,7 +143,7 @@ return {
         weight = 500,
         stack = true,
         close = true,
-        description = 'Decal and wrap materials for custom liveries.',
+        description = 'Wrap and decal pack for custom liveries.',
         image = 'livery_kit.png'
     },
 
@@ -139,16 +152,16 @@ return {
         weight = 10000,
         stack = false,
         close = true,
-        description = 'Portable heavy-duty workbench for mechanical assembly tasks.',
+        description = 'Heavy workbench used for major assembly tasks.',
         image = 'mechanics_workbench.png'
     },
 
     ['tire_stack'] = {
         label = 'Tire Stack',
-        weight = 3200,
+        weight = 3000,
         stack = false,
         close = true,
-        description = 'Stack of performance tires for workshop stock.',
+        description = 'Stack of spare tires for workshop inventory.',
         image = 'tire_stack.png'
     },
 
@@ -157,7 +170,7 @@ return {
         weight = 2600,
         stack = false,
         close = true,
-        description = 'Performance transmission built for high load changes.',
+        description = 'Performance transmission for power delivery upgrades.',
         image = 'transmission.png'
     },
 
@@ -166,7 +179,7 @@ return {
         weight = 1800,
         stack = false,
         close = true,
-        description = 'Full suspension setup for handling and ride-height tuning.',
+        description = 'Suspension components for handling improvements.',
         image = 'suspension.png'
     }
 }

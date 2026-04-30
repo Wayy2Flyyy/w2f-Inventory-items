@@ -27,6 +27,14 @@ It focuses on:
 - [ox_inventory Usage Guide](docs/OX_INVENTORY_GUIDE.md)
 - [Contributing Items](docs/CONTRIBUTING_ITEMS.md)
 
+## Validation
+
+Run the item validator from the repository root:
+
+```bash
+python tools/validate_items.py
+```
+
 ## Repository structure
 
 ```text

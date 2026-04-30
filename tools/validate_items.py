@@ -1,101 +1,122 @@
 #!/usr/bin/env python3
-"""Validate ox_inventory item definitions against basic repository rules."""
+"""Validate ox_inventory item names and image filename consistency."""
 
 from __future__ import annotations
 
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ITEMS_FILE = ROOT / "ox_inventory" / "items.lua"
 IMAGES_DIR = ROOT / "images"
+
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")
-ITEM_KEY_PATTERN = re.compile(r"\['([a-zA-Z0-9_]+)'\]\s*=\s*\{")
-IMAGE_PATTERN = re.compile(r"image\s*=\s*'([^']+)'")
+ITEM_KEY_PATTERN = re.compile(r"\['([A-Za-z0-9_]+)'\]\s*=\s*\{")
+IMAGE_REF_PATTERN = re.compile(r"image\s*=\s*'([^']+)'")
 
 
-def parse_items(lines: list[str]) -> tuple[list[str], dict[str, str]]:
-    names: list[str] = []
-    images: dict[str, str] = {}
+def parse_items_lua(text: str) -> tuple[list[str], dict[str, str]]:
+    item_names: list[str] = []
+    item_images: dict[str, str] = {}
     current_item: str | None = None
 
-    for line in lines:
+    for line in text.splitlines():
         key_match = ITEM_KEY_PATTERN.search(line)
         if key_match:
             current_item = key_match.group(1)
-            names.append(current_item)
+            item_names.append(current_item)
             continue
 
         if current_item:
-            image_match = IMAGE_PATTERN.search(line)
+            image_match = IMAGE_REF_PATTERN.search(line)
             if image_match:
-                images[current_item] = image_match.group(1)
+                item_images[current_item] = image_match.group(1)
 
-    return names, images
+    return item_names, item_images
+
+
+def is_valid_snake_case(value: str) -> bool:
+    return bool(NAME_PATTERN.fullmatch(value))
 
 
 def main() -> int:
-    if not ITEMS_FILE.exists():
-        print(f"[ERROR] Missing items file: {ITEMS_FILE}")
-        return 1
+    errors: list[str] = []
+    warnings: list[str] = []
 
-    lines = ITEMS_FILE.read_text(encoding="utf-8").splitlines()
-    item_names, item_images = parse_items(lines)
+    print("=== w2f-Inventory-items Validator ===")
 
-    duplicates = sorted({name for name in item_names if item_names.count(name) > 1})
-    invalid_names = sorted([name for name in item_names if not NAME_PATTERN.match(name)])
+    # Validate images folder filenames
+    image_png_names: set[str] = set()
+    if IMAGES_DIR.exists():
+        image_files = [p for p in IMAGES_DIR.iterdir() if p.is_file() and p.name != '.gitkeep']
+        for image_path in sorted(image_files):
+            filename = image_path.name
+            stem = image_path.stem
+            suffix = image_path.suffix
 
-    available_images = {path.name for path in IMAGES_DIR.glob("*.png")} if IMAGES_DIR.exists() else set()
-    mismatched_images: list[str] = []
-    missing_images: list[str] = []
+            if suffix != ".png":
+                errors.append(f"images/{filename}: must use .png extension")
 
-    for item_name, image_name in sorted(item_images.items()):
-        expected_image = f"{item_name}.png"
-        if image_name != expected_image:
-            mismatched_images.append(
-                f"{item_name}: configured '{image_name}', expected '{expected_image}'"
-            )
-        if available_images and image_name not in available_images:
-            missing_images.append(f"{item_name}: '{image_name}' not found in images/")
+            if not is_valid_snake_case(stem):
+                errors.append(f"images/{filename}: name must be lowercase snake_case")
 
-    print("=== w2f-Inventory-items Validation Report ===")
-    print(f"Items parsed: {len(item_names)}")
-
-    if duplicates:
-        print("\n[FAIL] Duplicate item names:")
-        for name in duplicates:
-            print(f"  - {name}")
+            if suffix == ".png" and is_valid_snake_case(stem):
+                image_png_names.add(filename)
     else:
-        print("[OK] No duplicate item names.")
+        warnings.append("images/ directory not found (image filename checks skipped)")
 
-    if invalid_names:
-        print("\n[FAIL] Invalid item names (must be lowercase snake_case):")
-        for name in invalid_names:
-            print(f"  - {name}")
+    # Validate ox_inventory items
+    if ITEMS_FILE.exists():
+        item_names, item_images = parse_items_lua(ITEMS_FILE.read_text(encoding="utf-8"))
+
+        duplicates = sorted({name for name in item_names if item_names.count(name) > 1})
+        if duplicates:
+            for name in duplicates:
+                errors.append(f"Duplicate item key: {name}")
+
+        for name in item_names:
+            if not is_valid_snake_case(name):
+                errors.append(f"Invalid item key '{name}': must be lowercase snake_case")
+
+        for item_name, image_name in sorted(item_images.items()):
+            expected_image = f"{item_name}.png"
+            if image_name != expected_image:
+                errors.append(
+                    f"{item_name}: image is '{image_name}' but expected '{expected_image}'"
+                )
+
+            image_stem = Path(image_name).stem
+            image_suffix = Path(image_name).suffix
+
+            if image_suffix != ".png":
+                errors.append(f"{item_name}: image '{image_name}' must use .png extension")
+
+            if not is_valid_snake_case(image_stem):
+                errors.append(
+                    f"{item_name}: image '{image_name}' must use lowercase snake_case filename"
+                )
+
+            if image_png_names and image_name not in image_png_names:
+                warnings.append(f"{item_name}: '{image_name}' not found in images/")
     else:
-        print("[OK] All item names are lowercase snake_case.")
+        warnings.append("ox_inventory/items.lua not found (item checks skipped)")
 
-    if mismatched_images:
-        print("\n[WARN] Image filename mismatches:")
-        for msg in mismatched_images:
-            print(f"  - {msg}")
+    if errors:
+        print("\n[FAIL] Issues found:")
+        for issue in errors:
+            print(f" - {issue}")
     else:
-        print("[OK] All configured image names match item names.")
+        print("\n[PASS] No validation errors found.")
 
-    if available_images:
-        if missing_images:
-            print("\n[WARN] Configured images missing from images/:")
-            for msg in missing_images:
-                print(f"  - {msg}")
-        else:
-            print("[OK] All configured images exist in images/.")
-    else:
-        print("[INFO] No PNG files found in images/; skipping existence checks.")
+    if warnings:
+        print("\n[INFO] Notes:")
+        for note in warnings:
+            print(f" - {note}")
 
-    has_failure = bool(duplicates or invalid_names)
-    print("\nResult:", "FAIL" if has_failure else "PASS")
-    return 1 if has_failure else 0
+    print(f"\nSummary: {len(errors)} error(s), {len(warnings)} note(s)")
+    return 1 if errors else 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())

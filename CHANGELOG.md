@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- Added Bronze Pull Shark roadmap documentation.
+- Added pull request workflow guide.
+- Added pull request ideas backlog.
+- Added commit standards guide.
+- Added maintainer checklist.
+- Added issue backlog templates.
+- Updated README and contribution guidance.
 - Expanded item definitions across hunting, vehicle project, crafting materials, food and drink, medical, and economy/utility categories.
 - Added item category documentation.
 - Added troubleshooting documentation.

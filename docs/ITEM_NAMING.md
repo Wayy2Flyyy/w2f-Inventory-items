@@ -1,27 +1,28 @@
-# Item Naming Standards
+# Item Naming Rules
 
-Consistent naming is essential for stable economy data and script interoperability.
+Consistent naming helps avoid broken image links and item lookup issues.
 
-## Required format
+## Required rules
 
-- Lowercase only
-- snake_case only
-- Alphanumeric + underscore
+- Use **lowercase snake_case** for all item names.
+- Image filenames should match item names exactly.
+- Use `.png` image format.
+- Avoid spaces, capital letters, symbols, and duplicate names.
 
-### Good
+## Correct examples
 
-- `raw_meat`
-- `drag_turbo_kit`
-- `mechanics_workbench`
+- `raw_meat.png`
+- `animal_pelt.png`
+- `drag_turbo_kit.png`
+- `sultan_project_shell.png`
 
-### Bad
+## Incorrect examples
 
-- `RawMeat`
-- `drag-turbo-kit`
-- `mechanics workbench`
+- `Raw Meat.png`
+- `animal pelt.png`
+- `DragTurboKit.png`
+- `sultan-project-shell.png`
 
-## Recommendations
+## Why this matters
 
-- Keep names descriptive but concise.
-- Never rename live items without a migration plan.
-- Match image filename to item name where possible: `raw_meat` -> `raw_meat.png`.
+If naming is inconsistent, ox_inventory may load the item but fail to show the icon, or scripts may fail to reference the correct item key.

@@ -20,6 +20,13 @@ It focuses on:
 - Placeholder tracking for empty folders
 - MIT licensed repository
 
+## Documentation
+
+- [Installation Guide](docs/INSTALLATION.md)
+- [Item Naming Rules](docs/ITEM_NAMING.md)
+- [ox_inventory Usage Guide](docs/OX_INVENTORY_GUIDE.md)
+- [Contributing Items](docs/CONTRIBUTING_ITEMS.md)
+
 ## Repository structure
 
 ```text

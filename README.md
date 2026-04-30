@@ -20,12 +20,27 @@ It focuses on:
 - Placeholder tracking for empty folders
 - MIT licensed repository
 
+## Item categories
+
+- Hunting
+- Vehicle project
+- Crafting materials
+- Food and drink
+- Medical
+- Economy and utility
+
+This repository now includes definitions across all categories above to support a wider range of FiveM server economies.
+
 ## Documentation
 
 - [Installation Guide](docs/INSTALLATION.md)
 - [Item Naming Rules](docs/ITEM_NAMING.md)
 - [ox_inventory Usage Guide](docs/OX_INVENTORY_GUIDE.md)
 - [Contributing Items](docs/CONTRIBUTING_ITEMS.md)
+- [Item Categories](docs/ITEM_CATEGORIES.md)
+- [Examples](docs/EXAMPLES.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Validation Guide](docs/VALIDATION.md)
 
 ## Validation
 

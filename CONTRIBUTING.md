@@ -1,24 +1,18 @@
 # Contributing to w2f-Inventory-items
 
-Thanks for helping improve this repository.
+Thank you for contributing.
 
-## How to contribute
+## Contribution rules
 
-1. Fork the repository and create a feature branch.
-2. Make focused, quality changes.
-3. Run validation:
-   - `python3 tools/validate_items.py`
-4. Open a pull request with clear context and test notes.
+- Use **lowercase snake_case** for item names.
+- Image filenames should match item names (example: `raw_meat` -> `raw_meat.png`).
+- Prefer **transparent PNG** images for inventory icons.
+- Keep pull requests focused on one clear change.
+- Do not upload stolen, copyrighted, or low-quality assets.
+- Include preview images when adding new items.
 
-## Contribution standards
+## Pull request tips
 
-- Keep item names lowercase snake_case.
-- Keep item descriptions practical and concise.
-- Match image names to item keys when possible.
-- Avoid breaking changes without migration notes.
-
-## PR expectations
-
-- Explain why the change is useful.
-- List files changed.
-- Include before/after behavior where relevant.
+- Explain what was changed and why.
+- Keep descriptions clear and short.
+- Update related documentation when needed.
